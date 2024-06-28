@@ -41,7 +41,7 @@ func main() {
 	e.POST("/sign-in", handlers.Auth.PostSignIn)
 	e.GET("/sign-up", handlers.Auth.ShowSignUp)
 	e.POST("/sign-up", handlers.Auth.PostSignUp)
-  e.GET("/sign-out", handlers.Auth.GetSignOut)
+	e.GET("/sign-out", handlers.Auth.GetSignOut)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.MustEnv("SERVER_ADDR"))))
 }
@@ -55,11 +55,7 @@ func disableCache(next echo.HandlerFunc) echo.HandlerFunc {
 
 func withAuth(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		sess, err := session.Get("session", c)
-		if err != nil {
-			return err
-		}
-
+		sess, _ := session.Get("session", c)
 		user := sess.Values["user"]
 
 		c.Set("user", user)
