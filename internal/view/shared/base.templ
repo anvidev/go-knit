@@ -2,9 +2,13 @@ package shared
 
 templ Base(title string, nav bool) {
 	<!DOCTYPE html>
-	<html>
+	<html
+		class="dark"
+		x-data="{ theme: $persist('dark').as('theme') }"
+    x-bind:class="{ 'dark': theme === 'dark' }"
+	>
 		@head(title)
-		<body x-data="{theme: 'dark'}" :class="theme" class="antialiased">
+		<body class="antialiased">
 			if nav {
 				@navigation()
 			}
