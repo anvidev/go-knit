@@ -1,0 +1,29 @@
+package shared
+
+import "go-starter/internal/view"
+
+templ navigation() {
+	<header class="border-b border-border">
+		<div class="flex items-center justify-between container py-4">
+			<a class="font-semibold tracking-tighter" href="/">Go</a>
+			<nav class="flex items-center gap-4">
+				<ul class="flex items-center gap-2">
+					if view.GetSessionAttributes(ctx).LoggedIn {
+						@link("/projects", "Projects")
+						@link("/profile", "Profile")
+						@link("/sign-out", "Sign out")
+					} else {
+						@link("/sign-in", "Sign in")
+					}
+				</ul>
+				@ThemeToggle()
+			</nav>
+		</div>
+	</header>
+}
+
+templ link(to, label string) {
+	<li class="text-muted-foreground text-sm hover:underline">
+		<a href={ templ.SafeURL(to) }>{ label }</a>
+	</li>
+}

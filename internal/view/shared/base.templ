@@ -1,0 +1,16 @@
+package shared
+
+templ Base(title string, nav bool) {
+	<!DOCTYPE html>
+	<html>
+		@head(title)
+		<body x-data="{theme: 'dark'}" :class="theme" class="antialiased">
+			if nav {
+				@navigation()
+			}
+			<main class="container py-4 min-h-screen flex">
+				{ children... }
+			</main>
+		</body>
+	</html>
+}

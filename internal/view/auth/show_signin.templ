@@ -1,0 +1,15 @@
+package auth
+
+import "go-starter/internal/view/shared"
+
+templ ShowSignIn(title string) {
+	@shared.Base(title, false) {
+		<div class="w-full md:grid md:place-items-center">
+			<div class="p-4 border w-full md:max-w-sm rounded-md bg-card flex flex-col gap-4">
+				<h4>Welcome back</h4>
+				@FormSignIn(FormSignInData{})
+				<a class="text-center font-semibold text-sm hover:underline" href="/sign-up">Don't have an account?</a>
+			</div>
+		</div>
+	}
+}

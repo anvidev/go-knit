@@ -1,0 +1,60 @@
+package auth
+
+type FormSignUpData struct {
+	Values  map[string]string
+	Errors  map[string]string
+	Message string
+}
+
+templ FormSignUp(form FormSignUpData) {
+	<form class="space-y-4" hx-post="/sign-up" hx-swap="outerHTML">
+		if len(form.Message) > 0 {
+			<div class="border border-destructive bg-destructive/10 text-destructive-foreground rounded px-3 py-2">
+				{ form.Message }
+			</div>
+		}
+		<div class="space-y-1">
+			<label for="name" class="text-sm font-medium">Name</label>
+			<input
+				name="name"
+				type="text"
+				value={ form.Values["name"] }
+				class="w-full rounded text-foreground bg-background dark:border-border"
+			/>
+			if len(form.Errors["name"]) > 0 {
+				<p class="text-sm text-destructive">{ form.Errors["name"] }</p>
+			}
+		</div>
+		<div class="space-y-1">
+			<label for="email" class="text-sm font-medium">Email</label>
+			<input
+				name="email"
+				type="text"
+				value={ form.Values["email"] }
+				class="w-full rounded text-foreground bg-background dark:border-border"
+			/>
+			if len(form.Errors["email"]) > 0 {
+				<p class="text-sm text-destructive">{ form.Errors["email"] }</p>
+			}
+		</div>
+		<div class="space-y-1">
+			<label for="password" class="text-sm font-medium">Password</label>
+			<input
+				name="password"
+				type="password"
+				value={ form.Values["password"] }
+				class="w-full rounded text-foreground bg-background dark:border-border"
+			/>
+			if len(form.Errors["password"]) > 0 {
+				<p class="text-sm text-destructive">{ form.Errors["password"] }</p>
+			}
+		</div>
+		<button
+			x-data="{ loading: false }"
+			x-text="loading ? 'Signing up' : 'Sign up'"
+			@click="loading = true"
+			class="bg-primary rounded flex items-center justify-center font-semibold w-full text-primary-foreground h-8"
+			type="submit"
+		></button>
+	</form>
+}
