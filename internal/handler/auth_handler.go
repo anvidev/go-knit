@@ -77,7 +77,7 @@ func (h AuthHandler) PostSignIn(c echo.Context) error {
 		return err
 	}
 
-	return hxRedirect(c, "/")
+	return hxRedirect(c, "/projects")
 }
 
 func (h AuthHandler) ShowSignUp(c echo.Context) error {
@@ -132,7 +132,7 @@ func (h AuthHandler) PostSignUp(c echo.Context) error {
 		}))
 	}
 
-	return hxRedirect(c, "/")
+	return hxRedirect(c, "/projects")
 }
 
 func (h AuthHandler) GetSignOut(c echo.Context) error {

@@ -1,23 +1,30 @@
 package shared
 
-import "go-starter/internal/view"
+import (
+	"go-starter/internal/view"
+)
 
 templ navigation() {
-	<header class="border-b border-border">
+	<header>
 		<div class="flex items-center justify-between container py-4">
-			<a class="font-semibold tracking-tighter" href="/">Go</a>
-			<nav class="flex items-center gap-4">
-				<ul class="flex items-center gap-2">
+			<div>
+				<a class="font-semibold tracking-tighter flex items-center gap-2" href="/">
+					@IconLogo("16")
+					Go Knit
+				</a>
+			</div>
+			<nav class="flex items-center gap-8">
+				<ul class="flex items-center gap-4">
 					if view.GetSessionAttributes(ctx).LoggedIn {
-						@link("/projects", "Projects")
-						@link("/profile", "Profile")
+						@link("/discover", "Discover")
+						@link("/projects", "My projects")
 						@link("/sign-out", "Sign out")
 					} else {
-						@link("/sign-in", "Sign in")
+						@link("/projects", "Get started")
 					}
 				</ul>
-				@ThemeToggle()
 			</nav>
+			@ThemeToggle()
 		</div>
 	</header>
 }

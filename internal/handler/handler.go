@@ -9,14 +9,16 @@ import (
 )
 
 type Handler struct {
-	Home *HomeHandler
-	Auth *AuthHandler
+	Landing *LandingHandler
+	Auth    *AuthHandler
+	Project *ProjectHandler
 }
 
 func New(s *service.Service) *Handler {
 	return &Handler{
-		Home: NewHomeHandler(),
-		Auth: NewAuthHandler(s.User),
+		Landing: NewLandingHandler(),
+		Auth:    NewAuthHandler(s.User),
+		Project: NewProjectHandler(),
 	}
 }
 
@@ -32,4 +34,3 @@ func hxRedirect(c echo.Context, url string) error {
 	}
 	return c.Redirect(http.StatusSeeOther, url)
 }
-
