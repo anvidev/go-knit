@@ -9,7 +9,7 @@ type FormSignUpData struct {
 templ FormSignUp(form FormSignUpData) {
 	<form class="space-y-4" hx-post="/sign-up" hx-swap="outerHTML">
 		if len(form.Message) > 0 {
-			<div class="border border-destructive bg-destructive/10 text-destructive-foreground rounded px-3 py-2">
+			<div class="border border-destructive bg-destructive/10 text-foreground rounded px-3 py-2">
 				{ form.Message }
 			</div>
 		}
@@ -19,7 +19,7 @@ templ FormSignUp(form FormSignUpData) {
 				name="name"
 				type="text"
 				value={ form.Values["name"] }
-				class="w-full rounded text-foreground bg-background dark:border-border"
+				class="w-full rounded text-foreground bg-background border-border"
 			/>
 			if len(form.Errors["name"]) > 0 {
 				<p class="text-sm text-destructive">{ form.Errors["name"] }</p>
@@ -31,7 +31,7 @@ templ FormSignUp(form FormSignUpData) {
 				name="email"
 				type="text"
 				value={ form.Values["email"] }
-				class="w-full rounded text-foreground bg-background dark:border-border"
+				class="w-full rounded text-foreground bg-background border-border"
 			/>
 			if len(form.Errors["email"]) > 0 {
 				<p class="text-sm text-destructive">{ form.Errors["email"] }</p>
@@ -43,7 +43,7 @@ templ FormSignUp(form FormSignUpData) {
 				name="password"
 				type="password"
 				value={ form.Values["password"] }
-				class="w-full rounded text-foreground bg-background dark:border-border"
+				class="w-full rounded text-foreground bg-background border-border"
 			/>
 			if len(form.Errors["password"]) > 0 {
 				<p class="text-sm text-destructive">{ form.Errors["password"] }</p>

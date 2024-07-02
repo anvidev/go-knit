@@ -1,4 +1,4 @@
-package shared
+package layout
 
 templ Base(title string, nav bool) {
 	<!DOCTYPE html>
@@ -8,11 +8,11 @@ templ Base(title string, nav bool) {
     x-bind:class="{ 'dark': theme === 'dark' }"
 	>
 		@head(title)
-		<body class="antialiased">
+		<body class="antialiased min-h-screen flex flex-col">
 			if nav {
 				@navigation()
 			}
-			<main class="container py-4 min-h-screen flex">
+			<main class="container py-4 grow flex">
 				{ children... }
 			</main>
 		</body>

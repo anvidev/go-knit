@@ -1,4 +1,4 @@
-package database
+package store
 
 import (
 	"context"
@@ -11,13 +11,17 @@ import (
 	"github.com/uptrace/bun/dialect/pgdialect"
 )
 
-// TODO: rename to store
-// Testing
-type Database struct {
-	Postgres *bun.DB
+type Store struct {
+  DB *bun.DB
 }
 
-func Open() *Database {
+func New(db *bun.DB) *Store {
+  return &Store{
+    DB: db,
+  }
+}
+
+func Open() *bun.DB {
 	pool, err := pgxpool.New(context.Background(), config.MustEnv("DATABASE_URL"))
 	if err != nil {
 		log.Fatalf("unable to connect to database: %v\n", err)
@@ -29,7 +33,5 @@ func Open() *Database {
 	}
 
 	bun := bun.NewDB(sqldb, pgdialect.New())
-	return &Database{
-		Postgres: bun,
-	}
+  return bun
 }

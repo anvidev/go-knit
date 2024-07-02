@@ -1,13 +1,13 @@
 package service
 
-import "go-starter/internal/database"
+import "go-starter/internal/store"
 
 type Service struct {
   User UserService
 }
 
-func New(db *database.Database) *Service {
+func New(store *store.Store) *Service {
   return &Service{
-    User: NewUserService(db),
+    User: NewUserService(store),
   }
 }

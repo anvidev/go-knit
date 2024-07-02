@@ -17,6 +17,7 @@ var (
 	InternalServerError     = errors.New("Internal server error")
 	InvalidCredentialsError = errors.New("Invalid credentials")
 	UserAlreadyExistError   = errors.New("A user with that email already exist")
+	IncompleteFormError     = errors.New("Please fill out the form")
 )
 
 type AuthHandler struct {
@@ -36,6 +37,12 @@ func (h AuthHandler) ShowSignIn(c echo.Context) error {
 func (h AuthHandler) PostSignIn(c echo.Context) error {
 	email := c.FormValue("email")
 	password := c.FormValue("password")
+
+  if len(email) == 0 || len(password) == 0 {
+    return render(c, auth.FormSignIn(auth.FormSignInData{
+      Message: IncompleteFormError.Error(),
+    }))
+  }
 
 	user, err := h.userService.GetByEmail(email)
 	if err != nil {
@@ -89,6 +96,12 @@ func (h AuthHandler) PostSignUp(c echo.Context) error {
 	email := c.FormValue("email")
 	password := c.FormValue("password")
 
+	if len(name) == 0 || len(email) == 0 || len(password) == 0 {
+		return render(c, auth.FormSignUp(auth.FormSignUpData{
+			Message: IncompleteFormError.Error(),
+		}))
+	}
+
 	hashedPassword, err := argon2.Hash(password)
 	if err != nil {
 		slog.Error("PostSignUp, ", "Password hashing error:", err)
@@ -136,8 +149,8 @@ func (h AuthHandler) PostSignUp(c echo.Context) error {
 }
 
 func (h AuthHandler) GetSignOut(c echo.Context) error {
-  if err := session.Destroy(c); err != nil {
-    return err
-  }
+	if err := session.Destroy(c); err != nil {
+		return err
+	}
 	return c.Redirect(http.StatusSeeOther, "/sign-in")
 }

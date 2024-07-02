@@ -1,0 +1,49 @@
+package layout
+
+import (
+	"go-starter/internal/view/ui"
+	"go-starter/internal/view"
+)
+
+templ navigation() {
+	<header class="flex items-center justify-between p-4">
+		<div class="flex items-center gap-12">
+			@logo()
+			if view.GetSessionAttributes(ctx).LoggedIn {
+				<nav>
+					<ul class="flex items-center gap-2">
+						<li>
+							<a href="/discover" class="text-sm hover:underline">Discover</a>
+						</li>
+						<li>
+							<a href="/projects" class="text-sm hover:underline">My projects</a>
+						</li>
+					</ul>
+				</nav>
+			}
+		</div>
+		<div class="flex items-center gap-2">
+			if view.GetSessionAttributes(ctx).LoggedIn {
+				<a href="/account" class="text-sm hover:underline">My account</a>
+			} else {
+        @ui.ThemeToggle()
+				<a class="bg-primary text-primary-foreground h-8 px-4 flex items-center rounded font-semibold" href="/projects">
+					Get
+					started
+				</a>
+			}
+		</div>
+	</header>
+}
+
+templ link(to, label string) {
+	<li class="text-muted-foreground text-sm hover:underline">
+		<a href={ templ.SafeURL(to) }>{ label }</a>
+	</li>
+}
+
+templ logo() {
+	<a href="/">
+		@ui.IconLogo("24")
+	</a>
+}

@@ -5,7 +5,7 @@ import (
 	"encoding/gob"
 	"fmt"
 	"go-starter/internal/config"
-	"go-starter/internal/database"
+	"go-starter/internal/store"
 	"go-starter/internal/handler"
 	"go-starter/internal/model"
 	"go-starter/internal/service"
@@ -20,8 +20,9 @@ import (
 func main() {
 	config.MustLoad()
 
-	db := database.Open()
-	services := service.New(db)
+	db := store.Open()
+	store := store.New(db)
+	services := service.New(store)
 	handlers := handler.New(services)
 
 	e := echo.New()
@@ -29,13 +30,12 @@ func main() {
 
 	if config.IsDevelopment() {
 		e.Use(disableCache)
+		e.Use(middleware.Logger())
 	}
-	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	e.Use(middleware.RateLimiter(middleware.NewRateLimiterMemoryStore(20)))
 	e.Use(session.Middleware(sessions.NewCookieStore([]byte(config.MustEnv("APP_SECRET")))))
 	gob.Register(model.SessionAttributes{})
-	// e.Use(withAuth)
 
 	e.GET("/", handlers.Landing.ShowLanding)
 	e.GET("/sign-in", handlers.Auth.ShowSignIn)
@@ -44,7 +44,7 @@ func main() {
 	e.POST("/sign-up", handlers.Auth.PostSignUp)
 	e.GET("/sign-out", handlers.Auth.GetSignOut)
 
-  e.GET("/projects", handlers.Project.ShowProjects, withAuth)
+	e.GET("/projects", handlers.Project.ShowProjects, withAuth)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.MustEnv("SERVER_ADDR"))))
 }
@@ -61,10 +61,10 @@ func withAuth(next echo.HandlerFunc) echo.HandlerFunc {
 		sess, _ := session.Get("session", c)
 		user, _ := sess.Values["user"].(model.SessionAttributes)
 
-    if !user.LoggedIn {
-      fmt.Println("THIS IS ME")
-      return c.Redirect(http.StatusSeeOther, "/sign-in")
-    }
+		if !user.LoggedIn {
+			fmt.Println("THIS IS ME")
+			return c.Redirect(http.StatusSeeOther, "/sign-in")
+		}
 
 		c.Set("user", user)
 
@@ -74,4 +74,3 @@ func withAuth(next echo.HandlerFunc) echo.HandlerFunc {
 		return next(c)
 	}
 }
-

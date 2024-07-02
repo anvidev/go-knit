@@ -1,11 +1,26 @@
 package landing
 
 import (
-	"go-starter/internal/view/shared"
+	"go-starter/internal/view/layout"
 )
 
 templ Show(title string) {
-	@shared.Base(title, true) {
-		<p class="text-2xl">Landing page</p>
+	@layout.Base(title, true) {
+		<div class="mx-auto self-center flex flex-col gap-6 items-center text-center">
+			<h1 class="text-accent">Crafted with love.<br/>Stored with care.</h1>
+			<p class="max-w-md text-accent leading-normal">
+				Organize and display your knitting projects effortlessly. Join a community that celebrates every stitch.
+			</p>
+			<div class="flex items-center gap-2 justify-center">
+				<a class="bg-primary text-primary-foreground h-8 px-4 flex items-center rounded font-semibold" href="/projects">
+					Get
+					started
+				</a>
+				<a
+					class="bg-secondary text-secondary-foreground h-8 flex items-center px-4 rounded font-semibold"
+					href="#features"
+				>Learn more</a>
+			</div>
+		</div>
 	}
 }

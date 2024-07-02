@@ -2,7 +2,7 @@ package service
 
 import (
 	"context"
-	"go-starter/internal/database"
+	"go-starter/internal/store"
 	"go-starter/internal/model"
 	"time"
 )
@@ -13,11 +13,11 @@ type UserService interface {
 }
 
 type userService struct {
-	db *database.Database
+  store *store.Store
 }
 
-func NewUserService(db *database.Database) UserService {
-	return &userService{db: db}
+func NewUserService(store *store.Store) UserService {
+	return &userService{store: store}
 }
 
 func (s userService) Create(name, email, hashedPassword string) (*model.User, error) {
@@ -29,7 +29,7 @@ func (s userService) Create(name, email, hashedPassword string) (*model.User, er
 		CreatedAt:      now,
 		UpdatedAt:      now,
 	}
-	_, err := s.db.Postgres.NewInsert().Model(newUser).Exec(context.Background())
+	_, err := s.store.DB.NewInsert().Model(newUser).Exec(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -39,7 +39,7 @@ func (s userService) Create(name, email, hashedPassword string) (*model.User, er
 
 func (s userService) GetByEmail(email string) (*model.User, error) {
 	user := model.User{}
-	if err := s.db.Postgres.NewSelect().Model(&user).Where("email = ?", email).Scan(context.Background()); err != nil {
+	if err := s.store.DB.NewSelect().Model(&user).Where("email = ?", email).Scan(context.Background()); err != nil {
 		return nil, err
 	}
 	return &user, nil

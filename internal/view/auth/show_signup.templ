@@ -1,12 +1,15 @@
 package auth
 
-import "go-starter/internal/view/shared"
+import "go-starter/internal/view/layout"
 
 templ ShowSignUp(title string) {
-	@shared.Base(title, false) {
+	@layout.Base(title, false) {
 		<div class="w-full md:grid md:place-items-center">
 			<div class="p-4 border w-full md:max-w-sm rounded-md bg-card flex flex-col gap-4">
+        <div class="space-y-1">
 				<h4>Welcome to Go Knit</h4>
+        <p class="text-sm text-muted-foreground">Enter your details to get started</p>
+        </div>
 				@FormSignUp(FormSignUpData{})
 				<a class="text-center font-semibold text-sm hover:underline" href="/sign-in">Already have an account?</a>
 			</div>
