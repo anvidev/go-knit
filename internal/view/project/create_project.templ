@@ -1,0 +1,14 @@
+package project
+
+import (
+	"go-starter/internal/view/layout"
+)
+
+templ CreateProject(title string) {
+	@layout.Base(title, true) {
+    <div class="flex flex-col gap-4">
+    <h1 class="text-lg font-semibold">Create new project</h1>
+		@CreateForm(CreateFormData{})
+    </div>
+	}
+}

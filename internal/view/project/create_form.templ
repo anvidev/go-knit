@@ -1,0 +1,45 @@
+package project
+
+type CreateFormData struct {
+	Values  map[string]string
+	Errors  map[string]string
+	Message string
+}
+
+templ CreateForm(form CreateFormData) {
+	<form class="space-y-4" hx-post="/projects/create" hx-swap="outerHTML">
+		if len(form.Message) > 0 {
+			<div class="border border-destructive bg-destructive/10 text-foreground rounded px-3 py-2">
+				{ form.Message }
+			</div>
+		}
+		<div class="space-y-1">
+			<label for="title" class="text-sm font-medium">Title</label>
+			<input
+				name="title"
+				type="text"
+				value={ form.Values["title"] }
+				class="w-full rounded text-foreground bg-background border-border"
+			/>
+			if len(form.Errors["title"]) > 0 {
+				<p class="text-sm text-destructive">{ form.Errors["title"] }</p>
+			}
+		</div>
+		<div class="space-y-1">
+			<label for="description" class="text-sm font-medium">Description</label>
+      <textarea name="description"
+				class="w-full rounded text-foreground bg-background border-border"
+      >{ form.Values["description"] }</textarea>
+			if len(form.Errors["title"]) > 0 {
+				<p class="text-sm text-destructive">{ form.Errors["title"] }</p>
+			}
+		</div>
+		<button
+			x-data="{ loading: false }"
+			x-text="loading ? 'Signing in' : 'Sign in'"
+			@click="loading = true"
+			class="bg-primary rounded flex items-center justify-center font-semibold w-full text-primary-foreground h-8"
+			type="submit"
+		></button>
+	</form>
+}

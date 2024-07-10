@@ -38,11 +38,11 @@ func (h AuthHandler) PostSignIn(c echo.Context) error {
 	email := c.FormValue("email")
 	password := c.FormValue("password")
 
-  if len(email) == 0 || len(password) == 0 {
-    return render(c, auth.FormSignIn(auth.FormSignInData{
-      Message: IncompleteFormError.Error(),
-    }))
-  }
+	if len(email) == 0 || len(password) == 0 {
+		return render(c, auth.FormSignIn(auth.FormSignInData{
+			Message: IncompleteFormError.Error(),
+		}))
+	}
 
 	user, err := h.userService.GetByEmail(email)
 	if err != nil {

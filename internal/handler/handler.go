@@ -18,7 +18,7 @@ func New(s *service.Service) *Handler {
 	return &Handler{
 		Landing: NewLandingHandler(),
 		Auth:    NewAuthHandler(s.User),
-		Project: NewProjectHandler(),
+		Project: NewProjectHandler(s.Project),
 	}
 }
 

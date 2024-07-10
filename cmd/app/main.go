@@ -5,10 +5,10 @@ import (
 	"encoding/gob"
 	"fmt"
 	"go-starter/internal/config"
-	"go-starter/internal/store"
 	"go-starter/internal/handler"
 	"go-starter/internal/model"
 	"go-starter/internal/service"
+	"go-starter/internal/store"
 	"net/http"
 
 	"github.com/gorilla/sessions"
@@ -45,6 +45,8 @@ func main() {
 	e.GET("/sign-out", handlers.Auth.GetSignOut)
 
 	e.GET("/projects", handlers.Project.ShowProjects, withAuth)
+	e.GET("/projects/create", handlers.Project.CreateProject, withAuth)
+	e.POST("/projects/create", handlers.Project.PostCreateProject, withAuth)
 
 	e.Logger.Fatal(e.Start(fmt.Sprintf(":%s", config.MustEnv("SERVER_ADDR"))))
 }

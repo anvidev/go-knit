@@ -2,8 +2,8 @@ package service
 
 import (
 	"context"
-	"go-starter/internal/store"
 	"go-starter/internal/model"
+	"go-starter/internal/store"
 	"time"
 )
 
@@ -13,7 +13,7 @@ type UserService interface {
 }
 
 type userService struct {
-  store *store.Store
+	store *store.Store
 }
 
 func NewUserService(store *store.Store) UserService {
@@ -27,7 +27,6 @@ func (s userService) Create(name, email, hashedPassword string) (*model.User, er
 		Email:          email,
 		HashedPassword: hashedPassword,
 		CreatedAt:      now,
-		UpdatedAt:      now,
 	}
 	_, err := s.store.DB.NewInsert().Model(newUser).Exec(context.Background())
 	if err != nil {

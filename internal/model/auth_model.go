@@ -10,7 +10,6 @@ type User struct {
 	Email          string
 	HashedPassword string
 	CreatedAt      time.Time
-	UpdatedAt      time.Time
 }
 
 type Session struct {
